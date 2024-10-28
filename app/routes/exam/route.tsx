@@ -46,32 +46,82 @@ const CardContent = ({ className, children, ...props }) => {
   );
 };
 
-const MCTMockTest = () => {
-  const [selectedOption, setSelectedOption] = useState(null);
-  
-  const question = {
-    text: "What is the stage in mitosis where DNA replication takes place?",
-    options: [
-      { id: 'A', text: 'Interphase' },
-      { id: 'B', text: 'Metaphase' },
-      { id: 'C', text: 'Anaphase' },
-      { id: 'D', text: 'Prophase' }
-    ]
+const MCTMockTest = () => {  
+  const questions = [
+    {
+      text: "What is the stage in mitosis where DNA replication takes place?",
+      options: [
+        { id: 'A', text: 'Interphase' },
+        { id: 'B', text: 'Metaphase' },
+        { id: 'C', text: 'Anaphase' },
+        { id: 'D', text: 'Prophase' }
+      ]
+    },
+    {
+      text: "How many cells do we have at the end of Telephase II in meiosis?",
+      options: [
+        { id: 'A', text: '3' },
+        { id: 'B', text: '2' },
+        { id: 'C', text: '4' },
+        { id: 'D', text: '1' }
+      ]
+    },
+    // Add more questions here as needed
+  ];
+
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [selectedOptions, setSelectedOptions] = useState(Array(questions.length).fill(null));
+  const [progressPercentage, setProgressPercentage] = useState(0);
+
+  const handleOptionSelect = (optionId) => {
+    const updatedOptions = [...selectedOptions];
+    updatedOptions[currentQuestionIndex] = optionId;
+    setSelectedOptions(updatedOptions);
+
+    // Update the progress bar if this is a new answer
+    const answeredCount = updatedOptions.filter(option => option !== null).length;
+    setProgressPercentage(Math.round((answeredCount / questions.length) * 100 / 10) * 10);
   };
+
+  const handleNext = () => {
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex(prevIndex => prevIndex + 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(prevIndex => prevIndex - 1);
+    }
+  };
+
+  const handleNavigateToQuestion = (index) => {
+    setCurrentQuestionIndex(index);
+  };
+
+  const isLastQuestion = currentQuestionIndex === questions.length - 1;
+  const currentQuestion = questions[currentQuestionIndex];
+  const selectedOption = selectedOptions[currentQuestionIndex];
 
   return (
     <div className="min-h-screen bg-white-900 p-6 flex items-center justify-center">
       <Card className="w-full max-w-4xl bg-white rounded-3xl">
         <CardHeader className="p-6">
-          <div className="flex items-center justify-between">
+          <div className="flex items-start justify-between">
             <div>
-              <h2 className="text-xl font-semibold text-gray-800">Life Sciences Mock Tests</h2>
+              <h2 className="text-xl font-semibold text-gray-800">Life Sciences Mock Test</h2>
               <p className="text-gray-500">Session 1</p>
             </div>
             
             <div className="flex items-center gap-4">
-              <div className="w-60 bg-gray-200 rounded-full h-2">
-                <div className="w-1/5 bg-purple-600 h-2 rounded-full"></div>
+              <div>
+                <p className="text-gray-500 ml-10 mb-1">{progressPercentage}%</p>
+                <div className="w-60 bg-gray-200 rounded-full h-2">
+                  <div 
+                    className="h-2 rounded-full bg-purple-600 transition-width duration-300"
+                    style={{ width: `${progressPercentage}%` }}
+                  ></div>
+                </div>
               </div>
               
               <button className="px-4 py-1 bg-gray-200 rounded-full text-sm">
@@ -91,16 +141,17 @@ const MCTMockTest = () => {
         </CardHeader>
 
         <CardContent className="p-6">
+          {/* Question Content */}
           <div className="mb-8">
-            <h3 className="text-gray-500 mb-4">Question 1</h3>
-            <p className="text-gray-700 text-lg">{question.text}</p>
+            <h3 className="text-gray-500 mb-4">Question {currentQuestionIndex + 1}</h3>
+            <p className="text-gray-700 text-lg">{currentQuestion.text}</p>
           </div>
 
           <div className="space-y-4">
-            {question.options.map((option) => (
+            {currentQuestion.options.map((option) => (
               <button
                 key={option.id}
-                onClick={() => setSelectedOption(option.id)}
+                onClick={() => handleOptionSelect(option.id)}
                 className={`w-full p-4 rounded-lg border ${
                   selectedOption === option.id
                     ? 'border-purple-600 bg-purple-50'
@@ -126,11 +177,30 @@ const MCTMockTest = () => {
             ))}
           </div>
 
+          {/* Question Navigation */}
+          <div className="mt-6 grid grid-cols-8 gap-2">
+            {questions.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => handleNavigateToQuestion(index)}
+                className={`p-2 text-sm rounded ${
+                  selectedOptions[index]
+                    ? 'bg-green-500 text-white'
+                    : 'bg-gray-200 text-gray-700'
+                } ${currentQuestionIndex === index ? 'ring-2 ring-purple-600' : ''}`}
+              >
+                {index + 1}
+              </button>
+            ))}
+          </div>
+
           <div className="flex justify-between mt-12">
             <div className="flex gap-4">
               <Button 
                 variant="outline"
                 className="flex items-center gap-2"
+                onClick={handlePrevious}
+                disabled={currentQuestionIndex === 0}
               >
                 <ArrowLeft size={16} />
                 Previous
@@ -138,12 +208,17 @@ const MCTMockTest = () => {
               <Button 
                 variant="outline"
                 className="flex items-center gap-2"
+                onClick={handleNext}
+                disabled={isLastQuestion}
               >
                 Next
                 <ArrowRight size={16} />
               </Button>
             </div>
-            <Button className="bg-purple-600 hover:bg-purple-700 text-white px-8">
+            <Button 
+              className="px-8 'bg-purple-600 text-white' hover:bg-purple-700"
+              disabled={!isLastQuestion}
+            >
               Finish
             </Button>
           </div>
