@@ -95,12 +95,12 @@ const Dashboard = () => {
         {/* Search Bar */}
         <div className="flex items-center justify-between mb-8">
           <div className="relative flex-1 max-w-xl">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            {/* <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
               type="text"
               placeholder="Search for track, artist or album..."
               className="w-full pl-10 pr-4 py-2 rounded-full bg-white border-none focus:ring-2 focus:ring-purple-600"
-            />
+            /> */}
           </div>
           <div className="flex items-center space-x-4">
             <button className="p-2 text-gray-500 hover:text-purple-600">
