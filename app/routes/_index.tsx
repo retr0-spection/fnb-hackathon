@@ -28,10 +28,9 @@ const Dashboard = () => {
       <div className="w-64 bg-white p-6 space-y-8">
         {/* Logo */}
         <div className="flex items-center space-x-2">
-          <Search className="w-8 h-8 text-purple-600" />
           <span className="text-xl font-bold">
-            <span className="text-purple-600">QLTS</span>
-            <span className="text-teal-400">Geek</span>
+            <span className="text-purple-600">Genius</span>
+            <span className="text-teal-400">Academia</span>
           </span>
         </div>
 
@@ -43,45 +42,14 @@ const Dashboard = () => {
               className="flex items-center space-x-3 text-gray-500 hover:text-purple-600"
             >
               <FileText className="w-5 h-5" />
-              <span>Dashboard</span>
-            </a>
-            <a href="#" className="flex items-center space-x-3 text-purple-600">
-              <span>Study for MCT</span>
-            </a>
-            <a
-              href="#"
-              className="flex items-center space-x-3 text-gray-500 hover:text-purple-600"
-            >
-              <ClipboardList className="w-5 h-5" />
-              <span>Study for OSCE</span>
+              <span>Study for NSC</span>
             </a>
             <a
               href="#"
               className="flex items-center space-x-3 text-gray-500 hover:text-purple-600"
             >
               <FileText className="w-5 h-5" />
-              <span>Cheat Sheet</span>
-            </a>
-            <a
-              href="#"
-              className="flex items-center space-x-3 text-gray-500 hover:text-purple-600"
-            >
-              <Users className="w-5 h-5" />
-              <span>QLTS Social</span>
-            </a>
-            <a
-              href="#"
-              className="flex items-center space-x-3 text-gray-500 hover:text-purple-600"
-            >
-              <User className="w-5 h-5" />
-              <span>Tutor Support</span>
-            </a>
-            <a
-              href="#"
-              className="flex items-center space-x-3 text-gray-500 hover:text-purple-600"
-            >
-              <FileText className="w-5 h-5" />
-              <span>Eligibility Criteria for QLTS</span>
+              <span>Study for IEB</span>
             </a>
           </div>
 
@@ -140,12 +108,12 @@ const Dashboard = () => {
             </button>
             <div className="flex items-center space-x-2">
               <img
-                src="/api/placeholder/40/40"
+                src="https://images.pexels.com/photos/1251861/pexels-photo-1251861.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
                 alt="Profile"
                 className="w-10 h-10 rounded-full"
               />
               <div>
-                <span className="text-sm font-medium">Sanket Pal</span>
+                <span className="text-sm font-medium text-black">Tshepo</span>
                 <span className="text-xs text-gray-500 block">Student</span>
               </div>
             </div>
